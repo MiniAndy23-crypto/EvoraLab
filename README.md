@@ -29,7 +29,20 @@
     button { cursor: pointer; }
     img { display: block; max-width: 100%; }
     .container { width: min(var(--max-width), calc(100% - 40px)); margin: 0 auto; }
-    .topbar { position: sticky; top: 0; z-index: 10; background: rgba(6,17,22,.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(169,190,197,.13); }
+    .topbar { position: sticky; top: 0; z-index: 10; background: rgba(6,17,22,.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(169,190,197,.13); transition: transform 0.3s; }
+    
+    /* Ocultar elementos principales cuando el reproductor esté activo */
+    body.playing-course .topbar,
+    body.playing-course .hero,
+    body.playing-course .benefits,
+    body.playing-course #cursos,
+    body.playing-course #metodo,
+    body.playing-course #nosotros,
+    body.playing-course .detail-section,
+    body.playing-course footer {
+      display: none !important;
+    }
+
     .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .logo { font-weight: 800; font-size: 1.45rem; letter-spacing: -.07em; }
     .logo span { color: var(--cyan); }
@@ -37,12 +50,15 @@
     .navlinks a:hover, .text-link:hover { color: var(--cyan); }
     .nav-actions { display: flex; align-items: center; gap: 12px; }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 19px; border-radius: 999px; border: 1px solid transparent; font-size: .86rem; font-weight: 700; transition: transform .2s, background .2s, border-color .2s; }
-    .btn:hover { transform: translateY(-2px); }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-primary { color: #031216; background: var(--cyan); }
-    .btn-primary:hover { background: #63edff; }
+    .btn-primary:hover:not(:disabled) { background: #63edff; }
     .btn-secondary { border-color: var(--border); color: var(--text); background: transparent; }
-    .btn-secondary:hover { border-color: var(--cyan); }
+    .btn-secondary:hover:not(:disabled) { border-color: var(--cyan); }
     .menu-toggle { display: none; border: 1px solid var(--border); color: var(--text); background: var(--surface); border-radius: 10px; padding: 8px 11px; }
+    
+    /* Hero & Secciones Base */
     .hero { position: relative; overflow: hidden; padding: 78px 0 60px; border-bottom: 1px solid var(--border); }
     .hero:before { content: ""; position: absolute; width: 480px; height: 480px; right: -130px; top: -120px; background: var(--cyan); opacity: .09; filter: blur(100px); border-radius: 50%; pointer-events: none; }
     .hero-grid { display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: 48px; position: relative; }
@@ -69,11 +85,13 @@
     .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
     h2 { font-size: clamp(1.8rem, 3.6vw, 3rem); letter-spacing: -.055em; line-height: 1.12; margin: 10px 0 0; }
     .section-head p { max-width: 440px; color: var(--muted); margin: 0; font-size: .9rem; }
+    
+    /* Filtros y Tarjetas */
     .filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 24px; }
     .filter { padding: 9px 16px; color: var(--muted); border: 1px solid var(--border); background: transparent; border-radius: 999px; font-size: .8rem; }
     .filter.active, .filter:hover { color: #031216; border-color: var(--cyan); background: var(--cyan); }
     .course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .course-card { overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); transition: transform .2s, border-color .2s; }
+    .course-card { overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); transition: transform .2s, border-color .2s; cursor: pointer; }
     .course-card:hover { transform: translateY(-5px); border-color: var(--cyan); }
     .course-image { position: relative; height: 220px; overflow: hidden; background: var(--surface-2); }
     .course-image img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.7); transition: transform .4s; }
@@ -86,16 +104,10 @@
     .card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 17px; }
     .price { font-size: 1.05rem; font-weight: 800; }
     .arrow-btn { display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; color: #031216; background: var(--cyan); font-size: 1.2rem; }
-    .method { background: var(--surface); border-block: 1px solid var(--border); }
-    .method-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; align-items: center; }
-    .method-copy p { color: var(--muted); margin: 18px 0 24px; }
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .step { padding: 22px; border: 1px solid var(--border); border-radius: 16px; background: var(--bg); }
-    .step-number { color: var(--cyan); font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
-    .step h3 { font-size: 1rem; margin: 12px 0 7px; }
-    .step p { color: var(--muted); font-size: .8rem; margin: 0; }
+    
+    /* Detalles del curso (SPA base) */
     .detail-section { display: none; padding: 62px 0 78px; border-top: 1px solid var(--border); }
-    .detail-section.show { display: block; }
+    .detail-section.show { display: block; animation: fadeIn 0.4s ease; }
     .detail-top { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; align-items: center; margin-bottom: 36px; }
     .detail-image { height: 340px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
     .detail-image img { width: 100%; height: 100%; object-fit: cover; }
@@ -112,14 +124,55 @@
     .check-list { list-style: none; padding: 0; margin: 0; }
     .check-list li { padding: 9px 0; color: var(--muted); font-size: .84rem; }
     .check-list li:before { content: "✓"; color: var(--cyan); font-weight: 800; margin-right: 10px; }
+    
+    /* Reproductor de Curso Interactivo (NUEVO) */
+    .course-player-section { display: none; min-height: 100vh; padding: 40px 0; background: var(--bg); }
+    .course-player-section.show { display: block; animation: fadeIn 0.4s ease; }
+    .player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+    .player-layout { display: grid; grid-template-columns: 320px 1fr; gap: 30px; }
+    .player-sidebar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; max-height: calc(100vh - 160px); overflow-y: auto; }
+    .player-sidebar h3 { margin-bottom: 20px; font-size: 1.1rem; }
+    .module-item { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: 12px; cursor: pointer; transition: all 0.2s; margin-bottom: 8px; border: 1px solid transparent; }
+    .module-item:hover { background: rgba(0,217,245,0.05); }
+    .module-item.active { background: rgba(0,217,245,0.1); border-color: rgba(0,217,245,0.3); }
+    .module-item .m-num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 0.75rem; flex-shrink: 0; transition: all 0.2s; }
+    .module-item.active .m-num { border-color: var(--cyan); color: var(--cyan); font-weight: bold; background: rgba(0,217,245,0.1); }
+    .module-item-title { font-size: 0.85rem; color: var(--muted); }
+    .module-item.active .module-item-title { color: var(--text); font-weight: 600; }
+    
+    .player-content { display: flex; flex-direction: column; gap: 24px; }
+    .video-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--surface-2); border-radius: var(--radius); border: 1px solid var(--border); position: relative; overflow: hidden; display: grid; place-items: center; cursor: pointer; group: video; }
+    .video-placeholder img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; transition: opacity 0.3s; }
+    .video-placeholder:hover img { opacity: 0.5; }
+    .play-icon { z-index: 2; width: 70px; height: 70px; background: var(--cyan); color: #031216; border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; padding-left: 6px; box-shadow: 0 0 30px rgba(0,217,245,0.4); transition: transform 0.2s; }
+    .video-placeholder:hover .play-icon { transform: scale(1.1); }
+    
+    .player-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .module-info h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    .module-info p { color: var(--muted); font-size: 0.95rem; }
+
+    /* Metodología y Resto */
+    .method { background: var(--surface); border-block: 1px solid var(--border); }
+    .method-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; align-items: center; }
+    .method-copy p { color: var(--muted); margin: 18px 0 24px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .step { padding: 22px; border: 1px solid var(--border); border-radius: 16px; background: var(--bg); }
+    .step-number { color: var(--cyan); font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
+    .step h3 { font-size: 1rem; margin: 12px 0 7px; }
+    .step p { color: var(--muted); font-size: .8rem; margin: 0; }
     .cta { padding: 38px; display: flex; align-items: center; justify-content: space-between; gap: 25px; border: 1px solid var(--border); border-radius: 22px; background: radial-gradient(circle at 100% 0%, rgba(0,217,245,.12), transparent 38%), var(--surface); }
     .cta p { color: var(--muted); margin: 8px 0 0; }
     footer { border-top: 1px solid var(--border); padding: 30px 0; color: var(--muted); font-size: .78rem; }
     .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
     .hidden { display: none !important; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
     @media (max-width: 900px) {
-      .hero-grid, .method-grid { grid-template-columns: 1fr; }
+      .hero-grid, .method-grid, .player-layout { grid-template-columns: 1fr; }
+      .player-sidebar { max-height: 300px; order: 2; }
+      .player-content { order: 1; }
       .hero { padding-top: 54px; }
       .hero-visual, .hero-visual img { min-height: 340px; }
       .benefits { grid-template-columns: repeat(2, 1fr); }
@@ -154,6 +207,8 @@
       .footer-row { align-items: flex-start; flex-direction: column; }
       .detail-image { height: 250px; }
       .panel { padding: 20px; }
+      .player-controls { flex-direction: column-reverse; gap: 15px; }
+      .player-controls button { width: 100%; }
     }
   </style>
 </head>
@@ -166,7 +221,7 @@
       </nav>
       <div class="nav-actions">
         <a class="btn btn-secondary" href="#cursos">Ver cursos</a>
-        <a class="btn btn-primary" href="#cursos">Explorar cursos ↗</a>
+        <a class="btn btn-primary" href="#cursos">Explorar cursos ↗️</a>
         <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
       </div>
     </div>
@@ -192,7 +247,7 @@
     </section>
 
     <div class="container benefits" aria-label="Beneficios de EvoraLab">
-      <article class="benefit"><div class="benefit-icon">↗</div><h3>Programas estructurados</h3><p>Una ruta clara para avanzar paso a paso.</p></article>
+      <article class="benefit"><div class="benefit-icon">↗️</div><h3>Programas estructurados</h3><p>Una ruta clara para avanzar paso a paso.</p></article>
       <article class="benefit"><div class="benefit-icon">◎</div><h3>Para todos los niveles</h3><p>Desde tus primeros entrenamientos hasta el nivel avanzado.</p></article>
       <article class="benefit"><div class="benefit-icon">⌁</div><h3>Enfoque práctico</h3><p>Aprende técnicas que puedes aplicar en el gimnasio.</p></article>
       <article class="benefit"><div class="benefit-icon">◷</div><h3>A tu propio ritmo</h3><p>Accede al contenido cuando lo necesites.</p></article>
@@ -211,32 +266,82 @@
           <button class="filter" data-filter="Avanzado">Avanzado</button>
         </div>
         <div class="course-grid" id="courseGrid">
-          <article class="course-card" data-level="Básico">
+          <article class="course-card" data-level="Básico" data-course="basic">
             <div class="course-image"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=900&q=80" alt="Persona entrenando con pesas"><span class="level-tag">Nivel básico</span></div>
-            <div class="course-body"><div class="eyebrow">Construye tu base</div><h3>Fundamentos del entrenamiento</h3><p>Aprende técnica, movimiento y hábitos para comenzar a entrenar con confianza.</p><div class="meta"><span>◷ 6 semanas</span><span>▦ 3 días/semana</span><span>◉ Principiante</span></div><div class="card-bottom"><span class="price">Nivel inicial</span><button class="arrow-btn" data-course="basic" aria-label="Ver curso básico">→</button></div></div>
+            <div class="course-body"><div class="eyebrow">Construye tu base</div><h3>Fundamentos del entrenamiento</h3><p>Aprende técnica, movimiento y hábitos para comenzar a entrenar con confianza.</p><div class="meta"><span>◷ 6 semanas</span><span>▦ 3 días/semana</span><span>◉ Principiante</span></div><div class="card-bottom"><span class="price">Nivel inicial</span><button class="arrow-btn" aria-label="Ver curso básico">→</button></div></div>
           </article>
-          <article class="course-card" data-level="Medio">
+          <article class="course-card" data-level="Medio" data-course="medium">
             <div class="course-image"><img src="https://images.unsplash.com/photo-1534368270820-9de3d8053204?auto=format&fit=crop&w=900&q=80" alt="Atleta realizando un ejercicio de fuerza"><span class="level-tag">Nivel medio</span></div>
-            <div class="course-body"><div class="eyebrow">Mejora tu rendimiento</div><h3>Progresión y desarrollo muscular</h3><p>Organiza tus sesiones, ajusta el volumen y aprende a progresar con intención.</p><div class="meta"><span>◷ 8 semanas</span><span>▦ 4 días/semana</span><span>◉ Intermedio</span></div><div class="card-bottom"><span class="price">Nivel intermedio</span><button class="arrow-btn" data-course="medium" aria-label="Ver curso medio">→</button></div></div>
+            <div class="course-body"><div class="eyebrow">Mejora tu rendimiento</div><h3>Progresión y desarrollo muscular</h3><p>Organiza tus sesiones, ajusta el volumen y aprende a progresar con intención.</p><div class="meta"><span>◷ 8 semanas</span><span>▦ 4 días/semana</span><span>◉ Intermedio</span></div><div class="card-bottom"><span class="price">Nivel intermedio</span><button class="arrow-btn" aria-label="Ver curso medio">→</button></div></div>
           </article>
-          <article class="course-card" data-level="Avanzado">
+          <article class="course-card" data-level="Avanzado" data-course="advanced">
             <div class="course-image"><img src="https://images.unsplash.com/photo-1534258936925-c58bed479fcb?auto=format&fit=crop&w=900&q=80" alt="Atleta entrenando intensamente en gimnasio"><span class="level-tag">Nivel avanzado</span></div>
-            <div class="course-body"><div class="eyebrow">Máximo rendimiento</div><h3>Programación avanzada</h3><p>Perfecciona la planificación, la autorregulación y las estrategias de rendimiento.</p><div class="meta"><span>◷ 12 semanas</span><span>▦ 5 días/semana</span><span>◉ Avanzado</span></div><div class="card-bottom"><span class="price">Nivel avanzado</span><button class="arrow-btn" data-course="advanced" aria-label="Ver curso avanzado">→</button></div></div>
+            <div class="course-body"><div class="eyebrow">Máximo rendimiento</div><h3>Programación avanzada</h3><p>Perfecciona la planificación, la autorregulación y las estrategias de rendimiento.</p><div class="meta"><span>◷ 12 semanas</span><span>▦ 5 días/semana</span><span>◉ Avanzado</span></div><div class="card-bottom"><span class="price">Nivel avanzado</span><button class="arrow-btn" aria-label="Ver curso avanzado">→</button></div></div>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- Detalle del Curso (Pre-visualización) -->
     <section class="detail-section" id="courseDetail" aria-live="polite">
       <div class="container">
-        <a href="#cursos" class="text-link">← Volver a todos los cursos</a>
-        <div class="detail-top" style="margin-top:22px">
-          <div><div class="eyebrow" id="detailEyebrow">Curso de entrenamiento</div><h2 id="detailTitle">Fundamentos del entrenamiento</h2><p class="detail-description" id="detailDescription"></p><div class="detail-facts" id="detailFacts"></div><a href="#inscripcion" class="btn btn-primary">Quiero empezar ↗</a></div>
+        <button class="btn btn-secondary" onclick="closeDetail()" style="margin-bottom: 22px;">← Volver al catálogo</button>
+        <div class="detail-top">
+          <div>
+            <div class="eyebrow" id="detailEyebrow">Curso de entrenamiento</div>
+            <h2 id="detailTitle">Fundamentos del entrenamiento</h2>
+            <p class="detail-description" id="detailDescription"></p>
+            <div class="detail-facts" id="detailFacts"></div>
+            <!-- Botón modificado para iniciar la interactividad -->
+            <button class="btn btn-primary" id="btnStartCourse" style="font-size: 1rem; padding: 16px 24px;">Iniciar curso ↗️</button>
+          </div>
           <div class="detail-image"><img id="detailImage" src="" alt=""></div>
         </div>
         <div class="detail-columns">
           <div class="panel"><h3>Contenido del curso</h3><div id="moduleList"></div></div>
           <div class="panel"><h3>¿Qué aprenderás?</h3><ul class="check-list" id="learningList"></ul><h3 style="margin-top:26px">Incluye</h3><ul class="check-list"><li>Lecciones digitales</li><li>Guías prácticas de apoyo</li><li>Seguimiento de tu progreso</li><li>Acceso desde distintos dispositivos</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUEVO: Reproductor Interactivo del Curso -->
+    <section class="course-player-section" id="coursePlayerView">
+      <div class="container">
+        <div class="player-header">
+          <div>
+            <div class="eyebrow" id="playerCourseLevel">Nivel</div>
+            <h2 id="playerCourseTitle" style="font-size: 1.5rem; margin-top: 5px;">Título del Curso</h2>
+          </div>
+          <button class="btn btn-secondary" onclick="exitPlayer()">← Salir del curso</button>
+        </div>
+        
+        <div class="player-layout">
+          <!-- Sidebar: Lista de Módulos -->
+          <aside class="player-sidebar">
+            <h3>Temario</h3>
+            <div id="playerSidebarModules">
+              <!-- Renderizado por JS -->
+            </div>
+          </aside>
+          
+          <!-- Área Principal: Lección Activa -->
+          <main class="player-content">
+            <div class="video-placeholder" onclick="alert('Funcionalidad de video en desarrollo.')">
+              <img id="playerVideoBg" src="" alt="Fondo de la lección">
+              <div class="play-icon">▶</div>
+            </div>
+            
+            <div class="module-info">
+              <div class="eyebrow" id="playerModuleEyebrow">Módulo 1</div>
+              <h2 id="playerModuleTitle">Título del Módulo</h2>
+              <p>Aprende los conceptos clave, técnica correcta y aplicación práctica de esta lección para asegurar una progresión continua en tu entrenamiento.</p>
+            </div>
+            
+            <div class="player-controls">
+              <button class="btn btn-secondary" id="btnPrevModule" onclick="changeModule(-1)">← Lección anterior</button>
+              <button class="btn btn-primary" id="btnNextModule" onclick="changeModule(1)">Siguiente lección →</button>
+            </div>
+          </main>
         </div>
       </div>
     </section>
@@ -260,10 +365,11 @@
   </main>
 
   <footer>
-    <div class="container footer-row"><a class="logo" href="#inicio">EVORA<span>LAB</span></a><div class="footer-links"><a href="#cursos">Cursos</a><a href="#metodo">Método</a><a href="#nosotros">Nosotros</a></div><span>© <span id="year"></span> EvoraLab. Formación deportiva.</span></div>
+    <div class="container footer-row"><a class="logo" href="#inicio">EVORA<span>LAB</span></a><div class="footer-links"><a href="#cursos">Cursos</a><a href="#metodo">Método</a><a href="#nosotros">Nosotros</a></div><span>©️ <span id="year"></span> EvoraLab. Formación deportiva.</span></div>
   </footer>
 
   <script>
+    // Base de datos de cursos
     const courses = {
       basic: {
         level: "Nivel básico · Principiante",
@@ -296,28 +402,156 @@
         learning: ["Diseñar bloques de entrenamiento", "Aplicar herramientas de autorregulación", "Gestionar carga y recuperación", "Analizar resultados para optimizar el programa"]
       }
     };
+
+    /* =========================================
+       1. LÓGICA DE CATÁLOGO Y DETALLES (SPA)
+       ========================================= */
     const detail = document.getElementById("courseDetail");
+    let activeCourseKey = null;
+
     function openCourse(key) {
       const course = courses[key];
       if (!course) return;
+      activeCourseKey = key; // Guardamos el curso activo actual
+      
+      // Llenamos la información del detalle
       document.getElementById("detailEyebrow").textContent = course.level;
       document.getElementById("detailTitle").textContent = course.title;
       document.getElementById("detailDescription").textContent = course.description;
       document.getElementById("detailFacts").innerHTML = course.facts.map(f => `<span>◷ ${f}</span>`).join("");
+      
       const image = document.getElementById("detailImage");
       image.src = course.image;
       image.alt = course.alt;
-      document.getElementById("moduleList").innerHTML = course.modules.map((m, i) => `<div class="module"><span class="module-number">${String(i + 1).padStart(2, "0")}</span><div><strong>${m}</strong><small>Lección ${i + 1} · Contenido digital</small></div></div>`).join("");
+      
+      document.getElementById("moduleList").innerHTML = course.modules.map((m, i) => 
+        `<div class="module"><span class="module-number">${String(i + 1).padStart(2, "0")}</span><div><strong>${m}</strong><small>Lección ${i + 1} · Contenido digital</small></div></div>`
+      ).join("");
+      
       document.getElementById("learningList").innerHTML = course.learning.map(item => `<li>${item}</li>`).join("");
+      
       detail.classList.add("show");
       detail.scrollIntoView({behavior: "smooth", block: "start"});
     }
-    document.querySelectorAll("[data-course]").forEach(button => button.addEventListener("click", () => openCourse(button.dataset.course)));
+
+    function closeDetail() {
+      detail.classList.remove("show");
+      document.getElementById("cursos").scrollIntoView({behavior: "smooth", block: "start"});
+    }
+
+    // Eventos para abrir cursos desde las tarjetas
+    document.querySelectorAll(".course-card").forEach(card => {
+      card.addEventListener("click", () => openCourse(card.dataset.course));
+    });
+
+    // Filtros de categorías
     document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
       document.querySelectorAll("[data-filter]").forEach(b => b.classList.toggle("active", b === button));
       const filter = button.dataset.filter;
-      document.querySelectorAll(".course-card").forEach(card => card.classList.toggle("hidden", filter !== "Todos" && card.dataset.level !== filter));
+      document.querySelectorAll(".course-card").forEach(card => {
+        card.classList.toggle("hidden", filter !== "Todos" && card.dataset.level !== filter);
+      });
     }));
+
+
+    /* =========================================
+       2. LÓGICA DEL REPRODUCTOR INTERACTIVO
+       ========================================= */
+    let currentModuleIndex = 0;
+
+    document.getElementById("btnStartCourse").addEventListener("click", () => {
+      startInteractiveCourse(activeCourseKey);
+    });
+
+    function startInteractiveCourse(key) {
+      const course = courses[key];
+      if (!course) return;
+
+      currentModuleIndex = 0; // Reiniciar al primer módulo
+      
+      // Ocultar landing y mostrar reproductor
+      document.body.classList.add("playing-course");
+      const playerView = document.getElementById("coursePlayerView");
+      playerView.classList.add("show");
+      window.scrollTo(0, 0);
+
+      // Cargar datos estáticos del curso en el reproductor
+      document.getElementById("playerCourseLevel").textContent = course.level;
+      document.getElementById("playerCourseTitle").textContent = course.title;
+      document.getElementById("playerVideoBg").src = course.image;
+
+      // Generar sidebar de módulos
+      renderSidebar(course);
+      
+      // Cargar la primera lección
+      loadModule(0);
+    }
+
+    function renderSidebar(course) {
+      const sidebar = document.getElementById("playerSidebarModules");
+      sidebar.innerHTML = course.modules.map((m, i) => `
+        <div class="module-item" id="modItem_${i}" onclick="loadModule(${i})">
+          <div class="m-num">${i + 1}</div>
+          <div class="module-item-title">${m}</div>
+        </div>
+      `).join("");
+    }
+
+    function loadModule(index) {
+      const course = courses[activeCourseKey];
+      currentModuleIndex = index;
+
+      // Actualizar vista principal
+      document.getElementById("playerModuleEyebrow").textContent = `Módulo ${index + 1} de ${course.modules.length}`;
+      document.getElementById("playerModuleTitle").textContent = course.modules[index];
+
+      // Actualizar estado activo en la sidebar
+      document.querySelectorAll(".module-item").forEach(el => el.classList.remove("active"));
+      document.getElementById(`modItem_${index}`).classList.add("active");
+
+      // Controlar estado de botones Ant/Sig
+      const btnPrev = document.getElementById("btnPrevModule");
+      const btnNext = document.getElementById("btnNextModule");
+      
+      btnPrev.disabled = index === 0;
+      
+      if (index === course.modules.length - 1) {
+        btnNext.textContent = "Finalizar Curso ✓";
+        btnNext.classList.remove("btn-primary");
+        btnNext.classList.add("btn-secondary");
+        btnNext.style.borderColor = "var(--cyan)";
+        btnNext.style.color = "var(--cyan)";
+      } else {
+        btnNext.textContent = "Siguiente lección →";
+        btnNext.classList.add("btn-primary");
+        btnNext.classList.remove("btn-secondary");
+        btnNext.style.borderColor = "transparent";
+        btnNext.style.color = "#031216";
+      }
+    }
+
+    function changeModule(direction) {
+      const course = courses[activeCourseKey];
+      const newIndex = currentModuleIndex + direction;
+      
+      if (newIndex >= 0 && newIndex < course.modules.length) {
+        loadModule(newIndex);
+      } else if (newIndex >= course.modules.length) {
+        alert("¡Felicidades! Has completado todos los módulos del curso.");
+        exitPlayer();
+      }
+    }
+
+    function exitPlayer() {
+      document.body.classList.remove("playing-course");
+      document.getElementById("coursePlayerView").classList.remove("show");
+      detail.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+
+
+    /* =========================================
+       3. FUNCIONES GENERALES Y MENÚ MÓVIL
+       ========================================= */
     const menuToggle = document.getElementById("menuToggle");
     const navlinks = document.getElementById("navlinks");
     menuToggle.addEventListener("click", () => {
