@@ -1,4 +1,3 @@
-
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -56,7 +55,27 @@
     .btn-primary:hover:not(:disabled) { background: #63edff; }
     .btn-secondary { border-color: var(--border); color: var(--text); background: transparent; }
     .btn-secondary:hover:not(:disabled) { border-color: var(--cyan); }
+    .btn-ghost { background: transparent; border: 1px solid transparent; color: var(--muted); }
+    .btn-ghost:hover { color: var(--text); }
     .menu-toggle { display: none; border: 1px solid var(--border); color: var(--text); background: var(--surface); border-radius: 10px; padding: 8px 11px; }
+    
+    /* MODAL DE AUTENTICACIÓN */
+    .auth-modal { position: fixed; inset: 0; background: rgba(6,17,22,0.85); backdrop-filter: blur(8px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 20px; }
+    .auth-modal.show { opacity: 1; pointer-events: all; }
+    .auth-modal-content { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 420px; padding: 36px 32px; position: relative; transform: translateY(20px); transition: transform 0.3s; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .auth-modal.show .auth-modal-content { transform: translateY(0); }
+    .auth-close { position: absolute; top: 18px; right: 18px; background: transparent; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; transition: color 0.2s; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; }
+    .auth-close:hover { color: var(--text); background: var(--surface-2); }
+    .auth-tabs { display: flex; gap: 20px; margin-bottom: 28px; border-bottom: 1px solid var(--border); padding-bottom: 14px; }
+    .auth-tab { background: transparent; border: none; color: var(--muted); font-size: 1.05rem; font-weight: 600; padding: 0; cursor: pointer; transition: color 0.2s; position: relative; }
+    .auth-tab.active { color: var(--cyan); }
+    .auth-tab.active::after { content: ''; position: absolute; bottom: -15px; left: 0; right: 0; height: 2px; background: var(--cyan); border-radius: 2px; }
+    .auth-form { display: flex; flex-direction: column; gap: 16px; }
+    .auth-form.hidden { display: none; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-group label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+    .auth-form input { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; }
+    .auth-form input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,217,245,0.1); }
     
     /* Hero & Secciones Base */
     .hero { position: relative; overflow: hidden; padding: 78px 0 60px; border-bottom: 1px solid var(--border); }
@@ -116,29 +135,35 @@
     .detail-columns { display: grid; grid-template-columns: 1.2fr .8fr; gap: 22px; }
     .panel { padding: 26px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
     .panel h3 { margin-bottom: 16px; }
-    .module { display: flex; align-items: center; gap: 13px; padding: 13px 0; border-bottom: 1px solid var(--border); }
+    
+    /* Temario Específico */
+    .module { display: flex; align-items: flex-start; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border); }
     .module:last-child { border-bottom: 0; }
-    .module-number { display: grid; place-items: center; flex: 0 0 34px; width: 34px; height: 34px; border: 1px solid var(--cyan); color: var(--cyan); border-radius: 50%; font-size: .8rem; }
-    .module strong { display: block; font-size: .85rem; }
-    .module small { color: var(--muted-2); font-size: .73rem; }
+    .module-number { display: grid; place-items: center; flex: 0 0 34px; width: 34px; height: 34px; border: 1px solid var(--cyan); color: var(--cyan); border-radius: 50%; font-size: .8rem; font-weight: 700; }
+    .module-info-text strong { display: block; font-size: .95rem; margin-bottom: 6px; color: var(--text); letter-spacing: -.02em; }
+    .module-info-text p { font-size: .82rem; color: var(--muted); margin: 0 0 8px 0; line-height: 1.45; }
+    .module-info-text small { color: var(--cyan); font-size: .75rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    
     .check-list { list-style: none; padding: 0; margin: 0; }
     .check-list li { padding: 9px 0; color: var(--muted); font-size: .84rem; }
     .check-list li:before { content: "✓"; color: var(--cyan); font-weight: 800; margin-right: 10px; }
     
-    /* Reproductor de Curso Interactivo (NUEVO) */
+    /* Reproductor de Curso Interactivo */
     .course-player-section { display: none; min-height: 100vh; padding: 40px 0; background: var(--bg); }
     .course-player-section.show { display: block; animation: fadeIn 0.4s ease; }
     .player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
     .player-layout { display: grid; grid-template-columns: 320px 1fr; gap: 30px; }
     .player-sidebar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; max-height: calc(100vh - 160px); overflow-y: auto; }
     .player-sidebar h3 { margin-bottom: 20px; font-size: 1.1rem; }
-    .module-item { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: 12px; cursor: pointer; transition: all 0.2s; margin-bottom: 8px; border: 1px solid transparent; }
+    .module-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 12px; cursor: pointer; transition: all 0.2s; margin-bottom: 8px; border: 1px solid transparent; }
     .module-item:hover { background: rgba(0,217,245,0.05); }
     .module-item.active { background: rgba(0,217,245,0.1); border-color: rgba(0,217,245,0.3); }
-    .module-item .m-num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 0.75rem; flex-shrink: 0; transition: all 0.2s; }
+    .module-item .m-num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 0.75rem; flex-shrink: 0; transition: all 0.2s; margin-top: 2px; }
     .module-item.active .m-num { border-color: var(--cyan); color: var(--cyan); font-weight: bold; background: rgba(0,217,245,0.1); }
-    .module-item-title { font-size: 0.85rem; color: var(--muted); }
+    .module-item-title { font-size: 0.85rem; color: var(--muted); font-weight: 500; line-height: 1.3; margin-bottom: 4px; }
     .module-item.active .module-item-title { color: var(--text); font-weight: 600; }
+    .module-item-time { font-size: 0.7rem; color: var(--muted-2); display: flex; align-items: center; gap: 4px; }
+    .module-item.active .module-item-time { color: var(--cyan); }
     
     .player-content { display: flex; flex-direction: column; gap: 24px; }
     .video-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--surface-2); border-radius: var(--radius); border: 1px solid var(--border); position: relative; overflow: hidden; display: grid; place-items: center; cursor: pointer; group: video; }
@@ -220,12 +245,54 @@
         <a href="#cursos">Cursos</a><a href="#metodo">Método</a><a href="#nosotros">Nosotros</a>
       </nav>
       <div class="nav-actions">
-        <a class="btn btn-secondary" href="#cursos">Ver cursos</a>
+        <!-- BOTÓN NUEVO DE LOGIN -->
+        <button class="btn btn-ghost" id="btnAuthNav">Iniciar sesión</button>
         <a class="btn btn-primary" href="#cursos">Explorar cursos ↗️</a>
         <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
       </div>
     </div>
   </header>
+
+  <!-- MODAL DE AUTENTICACIÓN -->
+  <div class="auth-modal" id="authModal" aria-hidden="true">
+    <div class="auth-modal-content">
+      <button class="auth-close" id="authClose" aria-label="Cerrar modal">&times;</button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-target="loginForm">Iniciar sesión</button>
+        <button class="auth-tab" data-target="registerForm">Crear cuenta</button>
+      </div>
+      
+      <!-- Formulario Login -->
+      <form class="auth-form" id="loginForm">
+        <div class="input-group">
+          <label for="loginEmail">Correo electrónico</label>
+          <input type="email" id="loginEmail" placeholder="tu@correo.com" required>
+        </div>
+        <div class="input-group">
+          <label for="loginPass">Contraseña</label>
+          <input type="password" id="loginPass" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; font-size: 0.95rem; padding: 14px;">Entrar a mi cuenta</button>
+      </form>
+
+      <!-- Formulario Registro -->
+      <form class="auth-form hidden" id="registerForm">
+        <div class="input-group">
+          <label for="regName">Nombre completo</label>
+          <input type="text" id="regName" placeholder="Tu nombre" required>
+        </div>
+        <div class="input-group">
+          <label for="regEmail">Correo electrónico</label>
+          <input type="email" id="regEmail" placeholder="tu@correo.com" required>
+        </div>
+        <div class="input-group">
+          <label for="regPass">Contraseña</label>
+          <input type="password" id="regPass" placeholder="Mínimo 8 caracteres" required minlength="8">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; font-size: 0.95rem; padding: 14px;">Unirme a EvoraLab</button>
+      </form>
+    </div>
+  </div>
 
   <main>
     <section class="hero" id="inicio">
@@ -282,7 +349,7 @@
       </div>
     </section>
 
-    <!-- Detalle del Curso (Pre-visualización) -->
+    <!-- Detalle del Curso -->
     <section class="detail-section" id="courseDetail" aria-live="polite">
       <div class="container">
         <button class="btn btn-secondary" onclick="closeDetail()" style="margin-bottom: 22px;">← Volver al catálogo</button>
@@ -292,19 +359,18 @@
             <h2 id="detailTitle">Fundamentos del entrenamiento</h2>
             <p class="detail-description" id="detailDescription"></p>
             <div class="detail-facts" id="detailFacts"></div>
-            <!-- Botón modificado para iniciar la interactividad -->
             <button class="btn btn-primary" id="btnStartCourse" style="font-size: 1rem; padding: 16px 24px;">Iniciar curso ↗️</button>
           </div>
           <div class="detail-image"><img id="detailImage" src="" alt=""></div>
         </div>
         <div class="detail-columns">
           <div class="panel"><h3>Contenido del curso</h3><div id="moduleList"></div></div>
-          <div class="panel"><h3>¿Qué aprenderás?</h3><ul class="check-list" id="learningList"></ul><h3 style="margin-top:26px">Incluye</h3><ul class="check-list"><li>Lecciones digitales</li><li>Guías prácticas de apoyo</li><li>Seguimiento de tu progreso</li><li>Acceso desde distintos dispositivos</li></ul></div>
+          <div class="panel"><h3>¿Qué aprenderás?</h3><ul class="check-list" id="learningList"></ul><h3 style="margin-top:26px">Incluye</h3><ul class="check-list"><li>Lecciones en video de alta calidad</li><li>Guías prácticas en PDF</li><li>Plantillas de seguimiento</li><li>Acceso ilimitado 24/7</li></ul></div>
         </div>
       </div>
     </section>
 
-    <!-- NUEVO: Reproductor Interactivo del Curso -->
+    <!-- Reproductor Interactivo del Curso -->
     <section class="course-player-section" id="coursePlayerView">
       <div class="container">
         <div class="player-header">
@@ -316,7 +382,7 @@
         </div>
         
         <div class="player-layout">
-          <!-- Sidebar: Lista de Módulos -->
+          <!-- Sidebar: Lista de Módulos Específicos -->
           <aside class="player-sidebar">
             <h3>Temario</h3>
             <div id="playerSidebarModules">
@@ -334,7 +400,7 @@
             <div class="module-info">
               <div class="eyebrow" id="playerModuleEyebrow">Módulo 1</div>
               <h2 id="playerModuleTitle">Título del Módulo</h2>
-              <p>Aprende los conceptos clave, técnica correcta y aplicación práctica de esta lección para asegurar una progresión continua en tu entrenamiento.</p>
+              <p id="playerModuleDesc">Descripción detallada de la lección.</p>
             </div>
             
             <div class="player-controls">
@@ -369,7 +435,7 @@
   </footer>
 
   <script>
-    // Base de datos de cursos
+    // BASE DE DATOS DE CURSOS
     const courses = {
       basic: {
         level: "Nivel básico · Principiante",
@@ -378,7 +444,14 @@
         facts: ["6 semanas", "3 días por semana", "Nivel principiante"],
         image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=1200&q=85",
         alt: "Persona entrenando con pesas",
-        modules: ["Introducción al entrenamiento", "Técnica y patrones básicos", "Principios de fuerza", "Organización de la rutina", "Recuperación y hábitos", "Cómo medir tu progreso"],
+        modules: [
+          { title: "Introducción al entrenamiento", desc: "Qué esperar de este programa, cómo navegar por la plataforma y la mentalidad inicial para construir el hábito.", time: "15 min" },
+          { title: "Técnica y patrones básicos", desc: "Aprende la ejecución correcta de la sentadilla, el peso muerto, los empujes y las tracciones fundamentales.", time: "22 min" },
+          { title: "Principios de fuerza", desc: "Por qué la fuerza es la base de todo deporte y cómo empezar a desarrollarla con seguridad desde cero.", time: "18 min" },
+          { title: "Organización de la rutina", desc: "Cómo estructurar tus 3 días de entrenamiento: calentamiento articular, bloque principal y cierre.", time: "20 min" },
+          { title: "Recuperación y hábitos", desc: "El papel fundamental del sueño, la hidratación, la nutrición básica y el descanso activo entre sesiones.", time: "14 min" },
+          { title: "Cómo medir tu progreso", desc: "Aprende a registrar tus pesos, evaluar tus sensaciones corporales y saber cuándo estás listo para más carga.", time: "10 min" }
+        ],
         learning: ["Ejecutar los movimientos fundamentales con mejor técnica", "Comprender series, repeticiones y descansos", "Crear una rutina inicial realista", "Reconocer la importancia de la recuperación"]
       },
       medium: {
@@ -388,7 +461,14 @@
         facts: ["8 semanas", "4 días por semana", "Nivel intermedio"],
         image: "https://images.unsplash.com/photo-1534368270820-9de3d8053204?auto=format&fit=crop&w=1200&q=85",
         alt: "Atleta realizando un ejercicio de fuerza",
-        modules: ["Principios de hipertrofia", "Volumen e intensidad", "Selección de ejercicios", "Sobrecarga progresiva", "Fatiga y recuperación", "Evaluación y ajustes"],
+        modules: [
+          { title: "Principios de hipertrofia", desc: "Conoce los 3 mecanismos del crecimiento muscular: tensión mecánica, estrés metabólico y daño muscular.", time: "18 min" },
+          { title: "Volumen e intensidad", desc: "Encuentra el punto óptimo entre la cantidad de series que realizas (volumen) y el esfuerzo invertido (intensidad).", time: "24 min" },
+          { title: "Selección de ejercicios", desc: "Cómo elegir las variantes que mejor se adaptan a tu biomecánica personal para evitar lesiones y potenciar el estímulo.", time: "20 min" },
+          { title: "Sobrecarga progresiva", desc: "Estrategias prácticas para seguir avanzando y generando adaptaciones cuando los pesos ya no suben fácilmente.", time: "25 min" },
+          { title: "Fatiga y recuperación", desc: "Identifica y maneja la fatiga del sistema nervioso central y periférico para evitar el estancamiento.", time: "16 min" },
+          { title: "Evaluación y ajustes", desc: "Auditoría mensual de tu programa: cuándo cambiar de ejercicios y cuándo es mejor mantener el rumbo.", time: "15 min" }
+        ],
         learning: ["Ajustar volumen, intensidad y frecuencia", "Aplicar progresión de forma planificada", "Seleccionar ejercicios según tus objetivos", "Interpretar el progreso y ajustar el programa"]
       },
       advanced: {
@@ -398,13 +478,61 @@
         facts: ["12 semanas", "5 días por semana", "Nivel avanzado"],
         image: "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?auto=format&fit=crop&w=1200&q=85",
         alt: "Atleta entrenando intensamente en gimnasio",
-        modules: ["Evaluación del punto de partida", "Periodización del entrenamiento", "Autorregulación y esfuerzo", "Gestión de la fatiga", "Especialización y ajustes", "Evaluación del rendimiento"],
+        modules: [
+          { title: "Evaluación del punto de partida", desc: "Testing seguro de 1RM, análisis de debilidades biomecánicas y fijación de objetivos a largo plazo.", time: "22 min" },
+          { title: "Periodización del entrenamiento", desc: "Aplica modelos de periodización ondulante y por bloques (mesociclos) para maximizar tu rendimiento global.", time: "30 min" },
+          { title: "Autorregulación y esfuerzo", desc: "Domina las escalas RIR (Repeticiones en Reserva) y RPE para ajustar la carga en tiempo real según tu estado de recuperación diario.", time: "28 min" },
+          { title: "Gestión de la fatiga extrema", desc: "Cómo programar semanas de descarga (deloads), tapering pre-competencia y supercompensación.", time: "25 min" },
+          { title: "Especialización y ajustes", desc: "Estructura bloques de especialización para grupos musculares rezagados o para mejorar levantamientos específicos.", time: "20 min" },
+          { title: "Evaluación del rendimiento", desc: "Métricas clave, KPIs del entrenamiento avanzado y planificación analítica del siguiente macrociclo.", time: "18 min" }
+        ],
         learning: ["Diseñar bloques de entrenamiento", "Aplicar herramientas de autorregulación", "Gestionar carga y recuperación", "Analizar resultados para optimizar el programa"]
       }
     };
 
     /* =========================================
-       1. LÓGICA DE CATÁLOGO Y DETALLES (SPA)
+       1. LÓGICA DE MODAL DE AUTENTICACIÓN
+       ========================================= */
+    const authModal = document.getElementById('authModal');
+    const btnAuthNav = document.getElementById('btnAuthNav');
+    const authClose = document.getElementById('authClose');
+    const authTabs = document.querySelectorAll('.auth-tab');
+
+    // Abrir y cerrar modal
+    btnAuthNav.addEventListener('click', () => authModal.classList.add('show'));
+    authClose.addEventListener('click', () => authModal.classList.remove('show'));
+    authModal.addEventListener('click', (e) => {
+      if (e.target === authModal) authModal.classList.remove('show');
+    });
+
+    // Alternar entre Login y Registro
+    authTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        authTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        const targetId = tab.dataset.target;
+        document.querySelectorAll('.auth-form').forEach(form => {
+          form.classList.toggle('hidden', form.id !== targetId);
+        });
+      });
+    });
+
+    // Simulaciones de envío
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('🔒 Simulación de inicio de sesión.\n\nPara un entorno real, necesitas integrar esto con un backend (ej: Firebase Auth, Node.js).');
+      authModal.classList.remove('show');
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('✅ Simulación de registro exitosa.\n\nPara guardar usuarios reales, conecta esto a tu base de datos o servicio de backend.');
+      authModal.classList.remove('show');
+    });
+
+    /* =========================================
+       2. LÓGICA DE CATÁLOGO Y DETALLES (SPA)
        ========================================= */
     const detail = document.getElementById("courseDetail");
     let activeCourseKey = null;
@@ -412,9 +540,8 @@
     function openCourse(key) {
       const course = courses[key];
       if (!course) return;
-      activeCourseKey = key; // Guardamos el curso activo actual
+      activeCourseKey = key; 
       
-      // Llenamos la información del detalle
       document.getElementById("detailEyebrow").textContent = course.level;
       document.getElementById("detailTitle").textContent = course.title;
       document.getElementById("detailDescription").textContent = course.description;
@@ -425,7 +552,14 @@
       image.alt = course.alt;
       
       document.getElementById("moduleList").innerHTML = course.modules.map((m, i) => 
-        `<div class="module"><span class="module-number">${String(i + 1).padStart(2, "0")}</span><div><strong>${m}</strong><small>Lección ${i + 1} · Contenido digital</small></div></div>`
+        `<div class="module">
+          <span class="module-number">${String(i + 1).padStart(2, "0")}</span>
+          <div class="module-info-text">
+            <strong>${m.title}</strong>
+            <p>${m.desc}</p>
+            <small>◷ ${m.time} · Lección en video</small>
+          </div>
+        </div>`
       ).join("");
       
       document.getElementById("learningList").innerHTML = course.learning.map(item => `<li>${item}</li>`).join("");
@@ -439,12 +573,10 @@
       document.getElementById("cursos").scrollIntoView({behavior: "smooth", block: "start"});
     }
 
-    // Eventos para abrir cursos desde las tarjetas
     document.querySelectorAll(".course-card").forEach(card => {
       card.addEventListener("click", () => openCourse(card.dataset.course));
     });
 
-    // Filtros de categorías
     document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
       document.querySelectorAll("[data-filter]").forEach(b => b.classList.toggle("active", b === button));
       const filter = button.dataset.filter;
@@ -453,9 +585,8 @@
       });
     }));
 
-
     /* =========================================
-       2. LÓGICA DEL REPRODUCTOR INTERACTIVO
+       3. LÓGICA DEL REPRODUCTOR INTERACTIVO
        ========================================= */
     let currentModuleIndex = 0;
 
@@ -467,23 +598,18 @@
       const course = courses[key];
       if (!course) return;
 
-      currentModuleIndex = 0; // Reiniciar al primer módulo
+      currentModuleIndex = 0; 
       
-      // Ocultar landing y mostrar reproductor
       document.body.classList.add("playing-course");
       const playerView = document.getElementById("coursePlayerView");
       playerView.classList.add("show");
       window.scrollTo(0, 0);
 
-      // Cargar datos estáticos del curso en el reproductor
       document.getElementById("playerCourseLevel").textContent = course.level;
       document.getElementById("playerCourseTitle").textContent = course.title;
       document.getElementById("playerVideoBg").src = course.image;
 
-      // Generar sidebar de módulos
       renderSidebar(course);
-      
-      // Cargar la primera lección
       loadModule(0);
     }
 
@@ -492,24 +618,26 @@
       sidebar.innerHTML = course.modules.map((m, i) => `
         <div class="module-item" id="modItem_${i}" onclick="loadModule(${i})">
           <div class="m-num">${i + 1}</div>
-          <div class="module-item-title">${m}</div>
+          <div style="flex:1;">
+            <div class="module-item-title">${m.title}</div>
+            <div class="module-item-time">◷ ${m.time}</div>
+          </div>
         </div>
       `).join("");
     }
 
     function loadModule(index) {
       const course = courses[activeCourseKey];
+      const moduleData = course.modules[index];
       currentModuleIndex = index;
 
-      // Actualizar vista principal
       document.getElementById("playerModuleEyebrow").textContent = `Módulo ${index + 1} de ${course.modules.length}`;
-      document.getElementById("playerModuleTitle").textContent = course.modules[index];
+      document.getElementById("playerModuleTitle").textContent = moduleData.title;
+      document.getElementById("playerModuleDesc").textContent = moduleData.desc;
 
-      // Actualizar estado activo en la sidebar
       document.querySelectorAll(".module-item").forEach(el => el.classList.remove("active"));
       document.getElementById(`modItem_${index}`).classList.add("active");
 
-      // Controlar estado de botones Ant/Sig
       const btnPrev = document.getElementById("btnPrevModule");
       const btnNext = document.getElementById("btnNextModule");
       
@@ -548,9 +676,8 @@
       detail.scrollIntoView({behavior: "smooth", block: "start"});
     }
 
-
     /* =========================================
-       3. FUNCIONES GENERALES Y MENÚ MÓVIL
+       4. FUNCIONES GENERALES Y MENÚ MÓVIL
        ========================================= */
     const menuToggle = document.getElementById("menuToggle");
     const navlinks = document.getElementById("navlinks");
