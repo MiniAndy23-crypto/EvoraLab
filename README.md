@@ -1,6 +1,4 @@
-# EvoraLab
-Pagina web de cursos de entrenamientos 
-<!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
